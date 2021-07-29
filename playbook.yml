@@ -1,0 +1,26 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: install apache2
+      apt:
+        name:
+          - apache2
+        #update_cache: yes
+    # changer les droits
+    - name: changer folder right
+      file:
+        path: /var/www/html
+        mode: '0755'
+        state: directory
+    # module pour copier un fichier
+    - name: file copy
+      copy:
+        src: html/
+        dest: /var/www/html
+    # module pour activer un service
+    - name: apache2 service 
+      service: 
+        name: apache2
+        state: started
+        enabled: yes
